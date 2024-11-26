@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - include:
+      relativeToChangelogFile: true
+      file: user.sql
+  - include:
+      relativeToChangelogFile: true
+      file: route.sql
+  - include:
+      relativeToChangelogFile: true
+      file: category.sql
+  - include:
+      relativeToChangelogFile: true
+      file: route_category.sql
+  - include:
+      relativeToChangelogFile: true
+      file: route_coordinate.sql
+  - include:
+      relativeToChangelogFile: true
+      file: route_session.sql
+  - include:
+      relativeToChangelogFile: true
+      file: user_checkpoint.sql
+  - include:
+      relativeToChangelogFile: true
+      file: review.sql
+  - changeSet:
+      id: 01.000.00
+      author: aevsyukov_1@edu.hse.ru
+      logicalFilePath: 01.000.00/db.changelog.yaml
+      changes:
+        - tagDatabase:
+            tag: 01.000.00

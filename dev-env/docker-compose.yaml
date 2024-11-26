@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: postgis/postgis
+    container_name: walking_routes_app_db
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=walking_routes_app_db
