@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: routes-provider
+  datasource:
+    url: jdbc:postgresql://localhost:5432/walking_routes_app_db
+    username: admin
+    password: admin
+    driver-class-name: org.postgresql.Driver

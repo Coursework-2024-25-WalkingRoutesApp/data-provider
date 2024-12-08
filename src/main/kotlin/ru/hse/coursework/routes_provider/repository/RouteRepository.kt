@@ -1,0 +1,8 @@
+package ru.hse.coursework.routes_provider.repository
+
+import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
+import ru.hse.coursework.routes_provider.model.Route
+
+@Repository
+interface RouteRepository : CrudRepository<Route, String>
