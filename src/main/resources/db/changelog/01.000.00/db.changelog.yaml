@@ -23,6 +23,9 @@ databaseChangeLog:
   - include:
       relativeToChangelogFile: true
       file: review.sql
+  - include:
+      relativeToChangelogFile: true
+      file: favorite.sql
   - changeSet:
       id: 01.000.00
       author: aevsyukov_1@edu.hse.ru
