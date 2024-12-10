@@ -5,4 +5,7 @@ import org.springframework.stereotype.Repository
 import ru.hse.coursework.routes_provider.model.Review
 
 @Repository
-interface ReviewRepository : CrudRepository<Review, String>
+interface ReviewRepository : CrudRepository<Review, String> {
+
+    fun findAllByRouteId(routeId: String): List<Review>
+}

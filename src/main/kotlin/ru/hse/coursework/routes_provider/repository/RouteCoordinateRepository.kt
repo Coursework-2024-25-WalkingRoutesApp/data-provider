@@ -5,4 +5,7 @@ import org.springframework.stereotype.Repository
 import ru.hse.coursework.routes_provider.model.RouteCoordinate
 
 @Repository
-interface RouteCoordinateRepository : CrudRepository<RouteCoordinate, String>
+interface RouteCoordinateRepository : CrudRepository<RouteCoordinate, String> {
+
+    fun findAllByRouteId(routeId: String): List<RouteCoordinate>
+}

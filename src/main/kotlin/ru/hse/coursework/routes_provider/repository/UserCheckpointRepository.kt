@@ -5,4 +5,7 @@ import org.springframework.stereotype.Repository
 import ru.hse.coursework.routes_provider.model.UserCheckpoint
 
 @Repository
-interface UserCheckpointRepository : CrudRepository<UserCheckpoint, String>
+interface UserCheckpointRepository : CrudRepository<UserCheckpoint, String> {
+
+    fun findAllByRouteSessionId(routeSessionId: String): List<UserCheckpoint>
+}
