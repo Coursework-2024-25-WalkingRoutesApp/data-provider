@@ -5,6 +5,7 @@ create table "user"
     id        varchar primary key,
     user_name varchar,
     email     varchar,
-    password  varchar
+    password  varchar,
+    photo_url varchar
 )
 -- rollback drop table "user";

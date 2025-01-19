@@ -18,7 +18,10 @@ data class User(
     val email: String,
 
     @Column(PASSWORD_COLUMN_NAME)
-    val password: String
+    val password: String,
+
+    @Column(PHOTO_URL_COLUMN_NAME)
+    val photoUrl: String? = null
 ) {
     companion object {
         const val TABLE_NAME = "order_table"
@@ -27,5 +30,6 @@ data class User(
         const val USER_NAME_COLUMN_NAME = "user_name"
         const val EMAIL_COLUMN_NAME = "email"
         const val PASSWORD_COLUMN_NAME = "password"
+        const val PHOTO_URL_COLUMN_NAME = "photo_url"
     }
 }
