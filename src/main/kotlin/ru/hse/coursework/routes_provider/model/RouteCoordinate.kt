@@ -5,15 +5,16 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import ru.hse.coursework.routes_provider.model.RouteCoordinate.Companion.TABLE_NAME
+import java.util.UUID
 
 @Table(TABLE_NAME)
 data class RouteCoordinate(
     @Id
     @Column(ID_COLUMN_NAME)
-    val id: String,
+    val id: UUID,
 
     @Column(ROUTE_ID_COLUMN_NAME)
-    val routeId: String,
+    val routeId: UUID,
 
     @Column(POINT_COLUMN_NAME)
     val point: Geometry?,

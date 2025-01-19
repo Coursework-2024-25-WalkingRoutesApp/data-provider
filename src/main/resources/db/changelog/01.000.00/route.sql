@@ -3,7 +3,7 @@
 create table route
 (
     id               uuid primary key,
-    user_id          varchar references "user" (id),
+    user_id          uuid references "user" (id),
     route_name       varchar,
     description      varchar,
     duration         time,

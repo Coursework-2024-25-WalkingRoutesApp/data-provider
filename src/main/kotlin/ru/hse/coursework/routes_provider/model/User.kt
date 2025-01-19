@@ -4,12 +4,13 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import ru.hse.coursework.routes_provider.model.User.Companion.TABLE_NAME
+import java.util.UUID
 
 @Table(TABLE_NAME)
 data class User(
     @Id
     @Column(ID_COLUMN_NAME)
-    val id: String,
+    val id: UUID,
 
     @Column(USER_NAME_COLUMN_NAME)
     val userName: String,
