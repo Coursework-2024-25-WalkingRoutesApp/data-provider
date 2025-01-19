@@ -7,7 +7,7 @@ import ru.hse.coursework.routes_provider.model.Review.Companion.TABLE_NAME
 @Table(TABLE_NAME)
 data class Review(
     @Column(USER_ID_COLUMN_NAME)
-    val usedId: String,
+    val userId: String,
 
     @Column(ROUTE_ID_COLUMN_NAME)
     val routeId: String,

@@ -9,7 +9,7 @@ import ru.hse.coursework.routes_provider.model.Favorite.Companion.TABLE_NAME
 data class Favorite(
 
     @Column(USER_ID_COLUMN_NAME)
-    val usedId: String,
+    val userId: String,
 
     @Column(ROUTE_ID_COLUMN_NAME)
     val routeId: String
