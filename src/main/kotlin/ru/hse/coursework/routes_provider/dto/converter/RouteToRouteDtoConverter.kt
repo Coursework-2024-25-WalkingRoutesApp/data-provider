@@ -29,7 +29,8 @@ class RouteToRouteDtoConverter {
                 RouteDto.RouteCoordinate(
                     id = routeCoordinate.id,
                     routeId = routeCoordinate.routeId,
-                    point = routeCoordinate.point,
+                    latitude = routeCoordinate.point?.coordinate?.x, //todo: проверить корректность преобразования
+                    longitude = routeCoordinate.point?.coordinate?.y,
                     orderNumber = routeCoordinate.orderNumber
                 )
             },

@@ -1,6 +1,5 @@
 package ru.hse.coursework.routes_provider.dto
 
-import com.vividsolutions.jts.geom.Geometry
 import java.time.LocalTime
 import java.util.UUID
 
@@ -21,7 +20,8 @@ data class RouteDto(
     data class RouteCoordinate(
         var id: UUID,
         var routeId: UUID,
-        var point: Geometry?,
+        var latitude: Double?,
+        var longitude: Double?,
         var orderNumber: Int?
     )
 
