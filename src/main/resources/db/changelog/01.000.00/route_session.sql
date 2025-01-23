@@ -3,7 +3,7 @@
 create table route_session
 (
     id          uuid primary key,
-    user_id     varchar references "user" (id),
+    user_id     uuid references "user" (id),
     route_id    uuid references route (id),
     is_finished boolean,
     started_at  timestamp,

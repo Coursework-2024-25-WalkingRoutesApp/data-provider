@@ -5,18 +5,19 @@ import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import ru.hse.coursework.routes_provider.model.RouteSession.Companion.TABLE_NAME
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Table(TABLE_NAME)
 data class RouteSession(
     @Id
     @Column(ID_COLUMN_NAME)
-    val id: String,
+    val id: UUID,
 
     @Column(USER_ID_COLUMN_NAME)
-    val userId: String,
+    val userId: UUID,
 
     @Column(ROUTE_ID_COLUMN_NAME)
-    val routeId: String,
+    val routeId: UUID,
 
     @Column(IS_FINISHED_COLUMN_NAME)
     val isFinished: Boolean?,

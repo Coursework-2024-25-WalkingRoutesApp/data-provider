@@ -6,15 +6,16 @@ import org.springframework.data.relational.core.mapping.Table
 import ru.hse.coursework.routes_provider.model.Route.Companion.TABLE_NAME
 import java.time.LocalDateTime
 import java.time.LocalTime
+import java.util.UUID
 
 @Table(TABLE_NAME)
 data class Route(
     @Id
     @Column(ID_COLUMN_NAME)
-    val id: String,
+    val id: UUID,
 
     @Column(USER_ID_COLUMN_NAME)
-    val userId: String,
+    val userId: UUID,
 
     @Column(ROUTE_NAME_COLUMN_NAME)
     val routeName: String?,

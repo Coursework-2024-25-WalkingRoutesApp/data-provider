@@ -4,14 +4,15 @@ import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import ru.hse.coursework.routes_provider.model.UserCheckpoint.Companion.TABLE_NAME
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Table(TABLE_NAME)
 data class UserCheckpoint(
     @Column(ROUTE_SESSION_ID_COLUMN_NAME)
-    val routeSessionId: String,
+    val routeSessionId: UUID,
 
     @Column(COORDINATE_ID_COLUMN_NAME)
-    val coordinateId: String,
+    val coordinateId: UUID,
 
     @Column(CREATED_AT_COLUMN_NAME)
     val createdAt: LocalDateTime?

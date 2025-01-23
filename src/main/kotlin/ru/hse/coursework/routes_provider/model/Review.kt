@@ -3,20 +3,25 @@ package ru.hse.coursework.routes_provider.model
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import ru.hse.coursework.routes_provider.model.Review.Companion.TABLE_NAME
+import java.time.LocalDateTime
+import java.util.UUID
 
 @Table(TABLE_NAME)
 data class Review(
     @Column(USER_ID_COLUMN_NAME)
-    val usedId: String,
+    val userId: UUID,
 
     @Column(ROUTE_ID_COLUMN_NAME)
-    val routeId: String,
+    val routeId: UUID,
 
     @Column(MARK_COLUMN_NAME)
     val mark: Int?,
 
     @Column(REVIEW_TEXT_COLUMN_NAME)
-    val reviewText: String?
+    val reviewText: String?,
+
+    @Column(CREATED_AT_COLUMN_NAME)
+    val createdAt: LocalDateTime?
 ) {
     companion object {
         const val TABLE_NAME = "review"
@@ -25,5 +30,6 @@ data class Review(
         const val ROUTE_ID_COLUMN_NAME = "route_id"
         const val MARK_COLUMN_NAME = "mark"
         const val REVIEW_TEXT_COLUMN_NAME = "review_text"
+        const val CREATED_AT_COLUMN_NAME = "created_at"
     }
 }
