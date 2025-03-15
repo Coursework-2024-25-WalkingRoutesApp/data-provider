@@ -6,3 +6,12 @@ spring:
     username: admin
     password: admin
     driver-class-name: org.postgresql.Driver
+
+  logging:
+    level:
+      org:
+        springframework:
+          web: DEBUG
+          data: DEBUG
+
+radius-in-meters: 1000

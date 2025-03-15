@@ -1,27 +1,28 @@
 package ru.hse.coursework.routes_provider.model
 
-import com.vividsolutions.jts.geom.Geometry
+import com.vividsolutions.jts.geom.Point
 import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import ru.hse.coursework.routes_provider.model.RouteCoordinate.Companion.TABLE_NAME
-import java.util.UUID
+import java.util.*
 
 @Table(TABLE_NAME)
 data class RouteCoordinate(
     @Id
     @Column(ID_COLUMN_NAME)
-    val id: UUID,
+    val id: UUID? = null,
 
     @Column(ROUTE_ID_COLUMN_NAME)
-    val routeId: UUID,
+    var routeId: UUID? = null,
 
     @Column(POINT_COLUMN_NAME)
-    val point: Geometry?,
+    val point: Point?,
 
     @Column(ORDER_NUMBER_COLUMN_NAME)
     val orderNumber: Int?
 ) {
+
     companion object {
         const val TABLE_NAME = "route_coordinate"
 

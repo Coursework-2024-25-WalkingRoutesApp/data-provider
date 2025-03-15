@@ -2,7 +2,8 @@
 -- changeset aevsyukov_1@edu.hse.ru:2 logicalFilePath:01.000.00/route.sql
 create table route
 (
-    id               uuid primary key,
+    id               uuid default gen_random_uuid()
+        primary key,
     user_id          uuid references "user" (id),
     route_name       varchar,
     description      varchar,

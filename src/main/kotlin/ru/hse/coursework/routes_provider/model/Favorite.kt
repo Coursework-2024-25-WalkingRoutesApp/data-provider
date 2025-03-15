@@ -1,5 +1,6 @@
 package ru.hse.coursework.routes_provider.model
 
+import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import ru.hse.coursework.routes_provider.model.Favorite.Companion.TABLE_NAME
@@ -9,6 +10,7 @@ import java.util.UUID
 @Table(TABLE_NAME)
 data class Favorite(
 
+    @Id
     @Column(USER_ID_COLUMN_NAME)
     val userId: UUID,
 
