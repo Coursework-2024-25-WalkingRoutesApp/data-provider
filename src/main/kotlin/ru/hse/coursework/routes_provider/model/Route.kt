@@ -12,10 +12,10 @@ import java.util.UUID
 data class Route(
     @Id
     @Column(ID_COLUMN_NAME)
-    val id: UUID,
+    var id: UUID? = null,
 
     @Column(USER_ID_COLUMN_NAME)
-    val userId: UUID,
+    var userId: UUID?,
 
     @Column(ROUTE_NAME_COLUMN_NAME)
     val routeName: String?,

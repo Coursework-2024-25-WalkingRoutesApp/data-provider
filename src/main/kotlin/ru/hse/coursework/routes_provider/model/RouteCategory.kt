@@ -8,7 +8,7 @@ import java.util.UUID
 @Table(TABLE_NAME)
 data class RouteCategory(
     @Column(ROUTE_ID_COLUMN_NAME)
-    val routeId: UUID,
+    var routeId: UUID? = null,
 
     @Column(CATEGORY_NAME_COLUMN_NAME)
     val categoryName: String

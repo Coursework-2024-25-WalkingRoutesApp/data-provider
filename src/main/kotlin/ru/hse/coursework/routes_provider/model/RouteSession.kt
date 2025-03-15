@@ -11,10 +11,10 @@ import java.util.UUID
 data class RouteSession(
     @Id
     @Column(ID_COLUMN_NAME)
-    val id: UUID,
+    val id: UUID? = null,
 
     @Column(USER_ID_COLUMN_NAME)
-    val userId: UUID,
+    var userId: UUID?,
 
     @Column(ROUTE_ID_COLUMN_NAME)
     val routeId: UUID,

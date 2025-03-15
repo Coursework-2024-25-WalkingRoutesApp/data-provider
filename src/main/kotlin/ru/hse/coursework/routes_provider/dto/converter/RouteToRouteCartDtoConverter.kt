@@ -11,18 +11,19 @@ import ru.hse.coursework.routes_provider.model.RouteCoordinate
 @Component
 class RouteToRouteCartDtoConverter {
 
-    fun convert (route: Route,
-                 routeCategories: List<RouteCategory>,
-                 routeCoordinate: RouteCoordinate,
-                 userCurrentPoint: Point
+    fun convert(
+        route: Route,
+        routeCategories: List<RouteCategory>,
+        routeCoordinate: RouteCoordinate?,
+        userCurrentPoint: Point
     ): RouteCartDto {
         return RouteCartDto(
-            id = route.id,
+            id = route.id ?: null!!,
             routeName = route.routeName,
             duration = route.duration,
             length = route.length,
             routePreview = route.routePreview,
-            distanceToUser = userCurrentPoint.distance(routeCoordinate.point),
+            distanceToUser = routeCoordinate?.let { userCurrentPoint.distance(/*WKTReader().read*/(it.point)) },
             categories = routeCategories.map { routeCategory ->
                 RouteDto.Categories(
                     routeId = routeCategory.routeId,

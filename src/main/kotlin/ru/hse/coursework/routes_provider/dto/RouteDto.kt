@@ -4,7 +4,7 @@ import java.time.LocalTime
 import java.util.UUID
 
 data class RouteDto(
-    var id: UUID,
+    var id: UUID? = null,
     var routeName: String?,
     var description: String?,
     var duration: LocalTime?,
@@ -18,15 +18,15 @@ data class RouteDto(
 ) {
 
     data class RouteCoordinate(
-        var id: UUID,
-        var routeId: UUID,
+        var id: UUID? = null,
+        var routeId: UUID?, //todo: подумать стоит ли оставлять
         var latitude: Double?,
         var longitude: Double?,
         var orderNumber: Int?
     )
 
     data class Categories(
-        var routeId: UUID,
+        var routeId: UUID? = null,
         var categoryName: String
     )
 }

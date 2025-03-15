@@ -4,7 +4,7 @@ import java.time.LocalDateTime
 import java.util.UUID
 
 data class RouteSessionDto(
-    var id: UUID,
+    var id: UUID? = null,
     var routeId: UUID,
     var isFinished: Boolean?,
     var startedAt: LocalDateTime?,

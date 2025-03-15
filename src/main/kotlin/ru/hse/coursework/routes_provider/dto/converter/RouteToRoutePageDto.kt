@@ -3,28 +3,30 @@ package ru.hse.coursework.routes_provider.dto.converter
 import org.springframework.stereotype.Component
 import ru.hse.coursework.routes_provider.dto.RouteDto
 import ru.hse.coursework.routes_provider.dto.RouteDto.Categories
+import ru.hse.coursework.routes_provider.dto.RoutePageDto
 import ru.hse.coursework.routes_provider.model.Route
 import ru.hse.coursework.routes_provider.model.RouteCategory
 import ru.hse.coursework.routes_provider.model.RouteCoordinate
 
 @Component
-class RouteToRouteDtoConverter {
+class RouteToRoutePageDto {
 
     fun convert(
         route: Route,
         routeCategories: List<RouteCategory>,
-        routeCoordinates: List<RouteCoordinate>
-    ): RouteDto {
-        return RouteDto(
-            id = route.id,
+        routeCoordinates: List<RouteCoordinate>,
+        checkIsFavorite: Boolean
+    ): RoutePageDto {
+        return RoutePageDto(
+            id = route.id!!,
             routeName = route.routeName,
             description = route.description,
             duration = route.duration,
             length = route.length,
             startPoint = route.startPoint,
             endPoint = route.endPoint,
+            isFavourite = checkIsFavorite,
             routePreview = route.routePreview,
-            isDraft = route.isDraft,
             routeCoordinate = routeCoordinates.map { routeCoordinate ->
                 RouteDto.RouteCoordinate(
                     id = routeCoordinate.id,
