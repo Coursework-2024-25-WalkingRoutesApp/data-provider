@@ -23,6 +23,9 @@ data class RouteCoordinate(
     val orderNumber: Int?
 ) {
 
+    val pointWkt: String?
+        get() = point?.let { "POINT(${it.x} ${it.y})" }
+
     companion object {
         const val TABLE_NAME = "route_coordinate"
 
