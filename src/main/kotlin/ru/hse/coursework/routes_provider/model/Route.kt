@@ -5,7 +5,6 @@ import org.springframework.data.relational.core.mapping.Column
 import org.springframework.data.relational.core.mapping.Table
 import ru.hse.coursework.routes_provider.model.Route.Companion.TABLE_NAME
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.util.UUID
 
 @Table(TABLE_NAME)
@@ -24,10 +23,10 @@ data class Route(
     val description: String?,
 
     @Column(DURATION_COLUMN_NAME)
-    val duration: LocalTime?,
+    val duration: Double?,
 
     @Column(LENGTH_COLUMN_NAME)
-    val length: Long?,
+    val length: Double?,
 
     @Column(START_POINT_COLUMN_NAME)
     val startPoint: String?,

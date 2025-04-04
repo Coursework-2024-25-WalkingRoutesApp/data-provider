@@ -21,16 +21,26 @@ data class User(
     @Column(PASSWORD_COLUMN_NAME)
     val password: String,
 
+    @Column(ROLE_COLUMN_NAME)
+    val role: AuthorityType? = AuthorityType.DEFAULT,
+
     @Column(PHOTO_URL_COLUMN_NAME)
     val photoUrl: String? = null
 ) {
+
+    enum class AuthorityType {
+        ADMIN,
+        DEFAULT
+    }
+
     companion object {
-        const val TABLE_NAME = "order_table"
+        const val TABLE_NAME = "user"
 
         const val ID_COLUMN_NAME = "id"
         const val USER_NAME_COLUMN_NAME = "user_name"
         const val EMAIL_COLUMN_NAME = "email"
         const val PASSWORD_COLUMN_NAME = "password"
+        const val ROLE_COLUMN_NAME = "role"
         const val PHOTO_URL_COLUMN_NAME = "photo_url"
     }
 }

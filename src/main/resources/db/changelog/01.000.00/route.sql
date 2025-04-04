@@ -7,7 +7,7 @@ create table route
     user_id          uuid references "user" (id),
     route_name       varchar,
     description      varchar,
-    duration         time,
+    duration         double precision,
     length           bigint,
     start_point      varchar,
     end_point        varchar,
