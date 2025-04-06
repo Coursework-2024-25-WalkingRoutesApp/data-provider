@@ -33,7 +33,9 @@ class RouteToRoutePageDto {
                     routeId = routeCoordinate.routeId,
                     latitude = (routeCoordinate.point)?.coordinate?.x, //todo: проверить корректность преобразования
                     longitude = (routeCoordinate.point)?.coordinate?.y,
-                    orderNumber = routeCoordinate.orderNumber
+                    orderNumber = routeCoordinate.orderNumber,
+                    title = routeCoordinate.title,
+                    description = routeCoordinate.description
                 )
             },
             categories = routeCategories.map { routeCategory ->

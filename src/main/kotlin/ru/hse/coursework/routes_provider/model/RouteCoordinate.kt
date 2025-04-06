@@ -20,7 +20,13 @@ data class RouteCoordinate(
     val point: Point?,
 
     @Column(ORDER_NUMBER_COLUMN_NAME)
-    val orderNumber: Int?
+    val orderNumber: Int?,
+
+    @Column(TITLE_COLUMN_NAME)
+    val title: String? = null,
+
+    @Column(DESCRIPTION_COLUMN_NAME)
+    val description: String? = null
 ) {
 
     val pointWkt: String?
@@ -33,5 +39,7 @@ data class RouteCoordinate(
         const val ROUTE_ID_COLUMN_NAME = "route_id"
         const val POINT_COLUMN_NAME = "point"
         const val ORDER_NUMBER_COLUMN_NAME = "order_number"
+        const val TITLE_COLUMN_NAME = "title"
+        const val DESCRIPTION_COLUMN_NAME = "description"
     }
 }
