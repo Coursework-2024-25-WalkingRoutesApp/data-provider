@@ -41,10 +41,12 @@ interface RouteCoordinateRepository : CrudRepository<RouteCoordinate, UUID> {
 
     @Query(
         """
-            insert into route_coordinate (route_id, point, order_number)
+            insert into route_coordinate (route_id, point, order_number, title, description)
             values (:#{#routeCoordinate.routeId}, 
                     ST_GeomFromText(:#{#routeCoordinate.pointWkt}, 4326),
-                    :#{#routeCoordinate.orderNumber})
+                    :#{#routeCoordinate.orderNumber},
+                    :#{#routeCoordinate.title},
+                    :#{#routeCoordinate.description})
             returning *
         """
     )

@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - include:
+      relativeToChangelogFile: true
+      file: route_coordinate.sql
+  - changeSet:
+      id: 01.002.00
+      author: aevsyukov_1@edu.hse.ru
+      logicalFilePath: 01.002.00/db.changelog.yaml
+      changes:
+        - tagDatabase:
+            tag: 01.002.00

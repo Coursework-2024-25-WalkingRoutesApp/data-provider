@@ -21,7 +21,9 @@ data class RouteDto(
         var routeId: UUID?, //todo: подумать стоит ли оставлять
         var latitude: Double?,
         var longitude: Double?,
-        var orderNumber: Int?
+        var orderNumber: Int?,
+        var title: String? = null,
+        var description: String? = null
     )
 
     data class Categories(
