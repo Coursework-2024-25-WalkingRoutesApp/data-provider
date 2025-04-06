@@ -15,12 +15,12 @@ class RouteSessionController(
 ) {
 
     @GetMapping(GET_FINISHED_URL)
-    fun getFinished(@RequestParam userId: UUID, @RequestBody userCoordinateDto: UserCoordinateDto): List<RouteCartDto> =
-        routeSessionService.getUserFinishedRoutes(userId, userCoordinateDto)
+    fun getFinished(@RequestParam userId: UUID, @RequestParam latitude: Double, @RequestParam longitude: Double): List<RouteCartDto> =
+        routeSessionService.getUserFinishedRoutes(userId, UserCoordinateDto(latitude, longitude))
 
     @GetMapping(GET_UNFINISHED_URL)
-    fun getUnfinished(@RequestParam userId: UUID, @RequestBody userCoordinateDto: UserCoordinateDto): List<RouteCartDto> =
-        routeSessionService.getUserUnfinishedRoutes(userId, userCoordinateDto)
+    fun getUnfinished(@RequestParam userId: UUID, @RequestParam latitude: Double, @RequestParam longitude: Double): List<RouteCartDto> =
+        routeSessionService.getUserUnfinishedRoutes(userId, UserCoordinateDto(latitude, longitude))
 
     @PostMapping(ADD_SESSION_URL)
     fun addSession(@RequestBody routeSessionDto: RouteSessionDto, @RequestParam userId: UUID): ResponseEntity<String> =

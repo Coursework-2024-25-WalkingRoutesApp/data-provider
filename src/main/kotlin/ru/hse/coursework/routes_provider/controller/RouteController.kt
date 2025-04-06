@@ -30,15 +30,12 @@ class RouteController(
         routeService.createOrUpdateRoute(routeDto, userId)
 
     @GetMapping(GET_DRAFTS_URL)
-    fun getDrafts(@RequestParam userId: UUID, @RequestBody userCoordinateDto: UserCoordinateDto): List<RouteCartDto> =
-        routeService.getUserRouteDrafts(userId, userCoordinateDto)
+    fun getDrafts(@RequestParam userId: UUID, @RequestParam latitude: Double, @RequestParam longitude: Double): List<RouteCartDto> =
+        routeService.getUserRouteDrafts(userId, UserCoordinateDto(latitude, longitude))
 
     @GetMapping(GET_PUBLISHED_URL)
-    fun getPublished(
-        @RequestParam userId: UUID,
-        @RequestBody userCoordinateDto: UserCoordinateDto
-    ): List<RouteCartDto> =
-        routeService.getUserPublishedRoutes(userId, userCoordinateDto)
+    fun getPublished(@RequestParam userId: UUID, @RequestParam latitude: Double, @RequestParam longitude: Double): List<RouteCartDto> =
+        routeService.getUserPublishedRoutes(userId, UserCoordinateDto(latitude, longitude))
 
 
     @DeleteMapping(DELETE_ROUTE_URL)
@@ -50,17 +47,14 @@ class RouteController(
         routeService.getRoutePage(routeId, userId)
 
     @GetMapping(GET_ROUTE_BY_SEARCH_VALUE_URL)
-    fun getRouteByName(
-        @RequestParam searchValue: String,
-        @RequestBody userCoordinateDto: UserCoordinateDto
-    ): List<RouteCartDto> =
-        routeService.getRouteBySearchValue(searchValue, userCoordinateDto)
+    fun getRouteByName(@RequestParam searchValue: String, @RequestParam latitude: Double, @RequestParam longitude: Double): List<RouteCartDto> =
+        routeService.getRouteBySearchValue(searchValue, UserCoordinateDto(latitude, longitude))
 
     @GetMapping(GET_ROUTES_URL)
     fun getRoutes(
-        @RequestBody userCoordinateDto: UserCoordinateDto,
+        @RequestParam latitude: Double, @RequestParam longitude: Double,
         @RequestParam(required = false) categories: List<String>?,
         @RequestParam(required = false) radius: Long?
     ): List<RouteCartDto> =
-        routeService.getRoutes(userCoordinateDto, categories ?: ArrayList<String>(), radius ?: radiusInMeters)
+        routeService.getRoutes(UserCoordinateDto(latitude, longitude), categories ?: ArrayList<String>(), radius ?: radiusInMeters)
 }

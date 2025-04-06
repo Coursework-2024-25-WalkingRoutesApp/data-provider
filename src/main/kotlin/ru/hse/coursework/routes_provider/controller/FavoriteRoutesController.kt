@@ -13,8 +13,8 @@ class FavoriteRoutesController(
     private val favoriteRoutesService: FavoriteRoutesService
 ) {
     @GetMapping(GET_FAVOURITES_URL)
-    fun getFavourites(@RequestParam userId: UUID, @RequestBody userCoordinateDto: UserCoordinateDto): List<RouteCartDto> =
-        favoriteRoutesService.getUserFavouriteRoutes(userId, userCoordinateDto)
+    fun getFavourites(@RequestParam userId: UUID, @RequestParam latitude: Double, @RequestParam longitude: Double): List<RouteCartDto> =
+        favoriteRoutesService.getUserFavouriteRoutes(userId, UserCoordinateDto(latitude, longitude))
 
 
     @PostMapping(ADD_FAVOURITE_URL)
