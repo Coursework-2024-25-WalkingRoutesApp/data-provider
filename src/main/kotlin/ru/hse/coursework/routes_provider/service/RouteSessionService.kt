@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional
 import ru.hse.coursework.routes_provider.dto.RouteCartDto
 import ru.hse.coursework.routes_provider.dto.RouteSessionDto
 import ru.hse.coursework.routes_provider.dto.UserCoordinateDto
+import ru.hse.coursework.routes_provider.dto.converter.RouteSessionToRouteSessionDtoConverter
 import ru.hse.coursework.routes_provider.dto.converter.RouteToRouteCartDtoConverter
 import ru.hse.coursework.routes_provider.dto.converter.UserCoordinateDtoToPointConverter
 import ru.hse.coursework.routes_provider.model.converter.RouteSessionDtoToRouteSessionConverter
@@ -24,7 +25,8 @@ class RouteSessionService(
     private val userCoordinateDtoToPointConverter: UserCoordinateDtoToPointConverter,
     private val routeSessionDtoToRouteSessionConverter: RouteSessionDtoToRouteSessionConverter,
     private val userCheckpointRepository: UserCheckpointRepository,
-    private val userCheckpointDtoToUserCheckpointConverter: UserCheckpointDtoToUserCheckpointConverter
+    private val userCheckpointDtoToUserCheckpointConverter: UserCheckpointDtoToUserCheckpointConverter,
+    private val routeSessionToRouteSessionDtoConverter: RouteSessionToRouteSessionDtoConverter
 ) {
 
     @Transactional
@@ -55,29 +57,53 @@ class RouteSessionService(
     fun createOrUpdateSession(routeSessionDto: RouteSessionDto, userId: UUID): ResponseEntity<String> {
         return try {
             if (routeSessionDto.id?.let { routeSessionRepository.existByIdAndUserId(it, userId) } == true) {
-                routeSessionRepository.updateRouteSessionData(routeSessionDtoToRouteSessionConverter.convert(routeSessionDto).apply {
-                    this.userId = userId
-                })
+                routeSessionRepository.updateRouteSessionData(
+                    routeSessionDtoToRouteSessionConverter.convert(
+                        routeSessionDto
+                    ).apply {
+                        this.userId = userId
+                    })
 
                 userCheckpointRepository.deleteById(routeSessionDto.id!!)
                 routeSessionDto.userCheckpoint.forEach { checkpoint ->
-                    userCheckpointRepository.save(userCheckpointDtoToUserCheckpointConverter.convert(checkpoint, routeSessionDto.id!!))
+                    userCheckpointRepository.save(
+                        userCheckpointDtoToUserCheckpointConverter.convert(
+                            checkpoint,
+                            routeSessionDto.id!!
+                        )
+                    )
                 }
 
                 ResponseEntity.status(HttpStatus.OK).body("Данные о сессии обновлены")
             } else {
-                val newRouteSession = routeSessionRepository.save(routeSessionDtoToRouteSessionConverter.convert(routeSessionDto).apply {
-                    this.userId = userId
-                })
+                val newRouteSession =
+                    routeSessionRepository.save(routeSessionDtoToRouteSessionConverter.convert(routeSessionDto).apply {
+                        this.userId = userId
+                    })
 
                 routeSessionDto.userCheckpoint.forEach { checkpoint ->
-                    userCheckpointRepository.addUserCheckpoint(userCheckpointDtoToUserCheckpointConverter.convert(checkpoint, newRouteSession.id!!))
+                    userCheckpointRepository.addUserCheckpoint(
+                        userCheckpointDtoToUserCheckpointConverter.convert(
+                            checkpoint,
+                            newRouteSession.id!!
+                        )
+                    )
                 }
 
                 ResponseEntity.status(HttpStatus.CREATED).body("Сессия создана")
             }
         } catch (e: Exception) {
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ошибка при создании сессии")
+        }
+    }
+
+    @Transactional
+    fun getSession(userId: UUID, routeId: UUID): RouteSessionDto? {
+        return routeSessionRepository.findByUserIdAndRouteId(userId, routeId)?.let { session ->
+            routeSessionToRouteSessionDtoConverter.convert(
+                session,
+                userCheckpointRepository.findByUserIdAndSessionId(session.id!!)
+            )
         }
     }
 }

@@ -18,4 +18,13 @@ interface UserCheckpointRepository : CrudRepository<UserCheckpoint, UUID> {
         """
     )
     fun addUserCheckpoint(userCheckpoint: UserCheckpoint)
+
+    @Query(
+        """
+            select * 
+            from user_checkpoint
+            where route_session_id = :sessionId
+        """
+    )
+    fun findByUserIdAndSessionId(sessionId: UUID): List<UserCheckpoint>
 }

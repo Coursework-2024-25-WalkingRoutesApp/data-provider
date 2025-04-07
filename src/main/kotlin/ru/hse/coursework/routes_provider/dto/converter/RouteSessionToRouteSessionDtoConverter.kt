@@ -1,9 +1,11 @@
 package ru.hse.coursework.routes_provider.dto.converter
 
+import org.springframework.stereotype.Component
 import ru.hse.coursework.routes_provider.dto.RouteSessionDto
 import ru.hse.coursework.routes_provider.model.RouteSession
 import ru.hse.coursework.routes_provider.model.UserCheckpoint
 
+@Component
 class RouteSessionToRouteSessionDtoConverter {
 
     fun convert(routeSession: RouteSession, userCheckpoints: List<UserCheckpoint>): RouteSessionDto {
