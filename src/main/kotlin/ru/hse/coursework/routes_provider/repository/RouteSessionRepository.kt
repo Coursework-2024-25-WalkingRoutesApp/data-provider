@@ -53,4 +53,14 @@ interface RouteSessionRepository : CrudRepository<RouteSession, UUID> {
         """
     )
     fun updateRouteSessionData(routeSession: RouteSession): Int
+
+    @Query(
+        """
+            select * 
+            from route_session 
+            where user_id = :userId
+            and route_id = :routeId
+        """
+    )
+    fun findByUserIdAndRouteId(userId: UUID, routeId: UUID): RouteSession?
 }
