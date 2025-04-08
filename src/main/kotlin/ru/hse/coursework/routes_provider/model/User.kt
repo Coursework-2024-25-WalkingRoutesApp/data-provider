@@ -10,10 +10,10 @@ import java.util.UUID
 data class User(
     @Id
     @Column(ID_COLUMN_NAME)
-    val id: UUID,
+    val id: UUID? = null,
 
     @Column(USER_NAME_COLUMN_NAME)
-    val userName: String,
+    var userName: String,
 
     @Column(EMAIL_COLUMN_NAME)
     val email: String,

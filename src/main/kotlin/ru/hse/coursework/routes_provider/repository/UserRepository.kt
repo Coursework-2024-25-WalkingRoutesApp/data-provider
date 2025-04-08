@@ -16,5 +16,25 @@ interface UserRepository : CrudRepository<User, UUID> {
             where id = :id
         """
     )
-    fun findUserById(id: UUID): User
+    fun findUserById(id: UUID): User?
+
+    @Query(
+        """
+            select *
+            from public."user"
+            where email = :email
+        """
+    )
+    fun findUserByEmail(email: String): User?
+
+    @Query(
+        """
+            select exists(
+                select 1
+                from public."user"
+                where email = :email
+            )
+        """
+    )
+    fun existsByEmail(email: String): Boolean
 }
