@@ -23,7 +23,7 @@ class ReviewService(
     @Transactional
     fun getRouteReviews(routeId: UUID, userId: UUID): ReviewDto {
         val reviews = reviewRepository.findAllByRouteId(routeId)
-        val userList = reviews.map { userRepository.findUserById(it.userId) }
+        val userList = reviews.mapNotNull { userRepository.findUserById(it.userId) }
 
         return reviewToReviewDtoConverter.convert(
             reviews,
