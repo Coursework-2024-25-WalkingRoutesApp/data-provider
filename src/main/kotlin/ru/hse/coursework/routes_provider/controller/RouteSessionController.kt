@@ -27,6 +27,6 @@ class RouteSessionController(
         routeSessionService.createOrUpdateSession(routeSessionDto, userId)
 
     @GetMapping(GET_SESSION_URL)
-    fun getSession(@RequestParam userId: UUID, @RequestParam routeId: UUID): RouteSessionDto? =
+    fun getSession(@RequestParam userId: UUID, @RequestParam routeId: UUID): ResponseEntity<RouteSessionDto>? =
         routeSessionService.getSession(userId, routeId)
 }

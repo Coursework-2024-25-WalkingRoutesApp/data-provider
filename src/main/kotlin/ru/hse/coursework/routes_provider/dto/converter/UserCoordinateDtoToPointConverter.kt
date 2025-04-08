@@ -13,7 +13,7 @@ class UserCoordinateDtoToPointConverter : Converter<UserCoordinateDto, Point> {
     override fun convert(source: UserCoordinateDto): Point {
         val geometryFactory = GeometryFactory()
         val coordinateSequence =
-            geometryFactory.coordinateSequenceFactory.create(arrayOf(Coordinate(source.latitude, source.longitude)))
+            geometryFactory.coordinateSequenceFactory.create(arrayOf(Coordinate(source.longitude, source.latitude)))
         return geometryFactory.createPoint(coordinateSequence)
     }
 }

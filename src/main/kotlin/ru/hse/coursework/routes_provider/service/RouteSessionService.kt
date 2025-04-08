@@ -98,12 +98,16 @@ class RouteSessionService(
     }
 
     @Transactional
-    fun getSession(userId: UUID, routeId: UUID): RouteSessionDto? {
+    fun getSession(userId: UUID, routeId: UUID): ResponseEntity<RouteSessionDto>? {
         return routeSessionRepository.findByUserIdAndRouteId(userId, routeId)?.let { session ->
-            routeSessionToRouteSessionDtoConverter.convert(
-                session,
-                userCheckpointRepository.findByUserIdAndSessionId(session.id!!)
+            ResponseEntity.status(HttpStatus.OK).body(
+                routeSessionToRouteSessionDtoConverter.convert(
+                    session,
+                    userCheckpointRepository.findByUserIdAndSessionId(session.id!!)
+                )
             )
+        } ?: run {
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)
         }
     }
 }

@@ -7,9 +7,12 @@ import ru.hse.coursework.routes_provider.dto.RouteDto
 import ru.hse.coursework.routes_provider.model.Route
 import ru.hse.coursework.routes_provider.model.RouteCategory
 import ru.hse.coursework.routes_provider.model.RouteCoordinate
+import ru.hse.coursework.routes_provider.repository.RouteCoordinateRepository
 
 @Component
-class RouteToRouteCartDtoConverter {
+class RouteToRouteCartDtoConverter(
+    private val routeCoordinateRepository: RouteCoordinateRepository
+) {
 
     fun convert(
         route: Route,
@@ -23,7 +26,10 @@ class RouteToRouteCartDtoConverter {
             duration = route.duration,
             length = route.length,
             routePreview = route.routePreview,
-            distanceToUser = routeCoordinate?.let { userCurrentPoint.distance(/*WKTReader().read*/(it.point)) },
+            distanceToUser = routeCoordinate?.let { routeCoordinateRepository.findDistanceBetweenCoordinates(
+                startPoint = userCurrentPoint,
+                endPoint = it.point!!
+            ) },
             categories = routeCategories.map { routeCategory ->
                 RouteDto.Categories(
                     routeId = routeCategory.routeId,

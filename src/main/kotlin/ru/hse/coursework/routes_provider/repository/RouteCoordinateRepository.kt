@@ -1,5 +1,6 @@
 package ru.hse.coursework.routes_provider.repository
 
+import com.vividsolutions.jts.geom.Point
 import org.springframework.data.jdbc.repository.query.Modifying
 import org.springframework.data.jdbc.repository.query.Query
 import org.springframework.data.repository.CrudRepository
@@ -51,4 +52,17 @@ interface RouteCoordinateRepository : CrudRepository<RouteCoordinate, UUID> {
         """
     )
     fun saveRouteCoordinate(routeCoordinate: RouteCoordinate): RouteCoordinate
+
+    @Query(
+        """
+            select ST_Distance(
+                ST_SetSRID(ST_MakePoint(:#{#startPoint.x}, :#{#startPoint.y}), 4326)::geography,
+                ST_SetSRID(ST_MakePoint(:#{#endPoint.x}, :#{#endPoint.y}), 4326)::geography
+            )
+        """
+    )
+    fun findDistanceBetweenCoordinates(
+        startPoint: Point,
+        endPoint: Point
+    ): Double?
 }

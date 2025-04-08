@@ -17,7 +17,7 @@ class RouteDtoCoordinateToRouteCoordinateConverter(
             id = source.id,
             routeId = source.routeId,
             point = /*WKTWriter().write*/(
-                geometryFactory.createPoint(Coordinate(source.latitude!!, source.longitude!!))
+                geometryFactory.createPoint(Coordinate(source.longitude!!, source.latitude!!))
             ),
             orderNumber = source.orderNumber,
             title = source.title,
