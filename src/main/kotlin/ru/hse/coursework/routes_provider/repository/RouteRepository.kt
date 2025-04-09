@@ -83,18 +83,6 @@ interface RouteRepository : CrudRepository<Route, UUID> {
     )
     fun deleteByRouteIdAndUserId(routeId: UUID, userId: UUID): Int
 
-    //todo: подумать как сделать поиск по похожим словам
-    @Query(
-        """
-            select * 
-            from route 
-            where route.route_name ilike :routeName
-        """
-    )
-    fun findAllByName(routeName: String): List<Route>
-
-
-
     @Query(
         """
             select *
@@ -128,4 +116,21 @@ interface RouteRepository : CrudRepository<Route, UUID> {
         """
     )
     fun findClosestRouteByCategories(userPoint: UserCoordinateDto, radiusInMeters: Long, categories: List<String>): List<Route>
+
+    //todo: подумать как сделать поиск по похожим словам
+    @Query(
+        """
+            select *
+            from route
+            join route_coordinate on route.id = route_coordinate.route_id
+            where route.route_name ilike :routeName
+            and route_coordinate.order_number = 1
+            and ST_DWithin(
+                    ST_SetSRID(ST_MakePoint(:#{#userPoint.longitude}, :#{#userPoint.latitude}), 4326)::geography,
+                    route_coordinate.point::geography,
+                    :radiusInMeters
+                )
+        """
+    )
+    fun findAllClosestByName(userPoint: UserCoordinateDto, radiusInMeters: Long, routeName: String): List<Route>
 }
