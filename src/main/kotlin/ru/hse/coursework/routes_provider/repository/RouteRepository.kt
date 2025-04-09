@@ -101,10 +101,11 @@ interface RouteRepository : CrudRepository<Route, UUID> {
             from route 
             join route_coordinate on route.id = route_coordinate.route_id
             where route_coordinate.order_number = 1
-            and ST_Distance(
-                    ST_SetSRID(ST_MakePoint(:#{#userPoint.longitude}, :#{#userPoint.latitude}), 4326),
-                    route_coordinate.point
-            ) < :radiusInMeters
+            and ST_DWithin(
+                    ST_SetSRID(ST_MakePoint(:#{#userPoint.longitude}, :#{#userPoint.latitude}), 4326)::geography,
+                    route_coordinate.point::geography,
+                    :radiusInMeters
+                )
         """
     )
     fun findClosestRoute(userPoint: UserCoordinateDto, radiusInMeters: Long): List<Route>
@@ -119,10 +120,11 @@ interface RouteRepository : CrudRepository<Route, UUID> {
             join route_coordinate on route.id = route_coordinate.route_id
             where route_category.category_name in (:categories)
             and route_coordinate.order_number = 1
-            and ST_Distance(
-                    ST_SetSRID(ST_MakePoint(:#{#userPoint.longitude}, :#{#userPoint.latitude}), 4326),
-                    route_coordinate.point
-            ) < :radiusInMeters
+            and ST_DWithin(
+                    ST_SetSRID(ST_MakePoint(:#{#userPoint.longitude}, :#{#userPoint.latitude}), 4326)::geography,
+                    route_coordinate.point::geography,
+                    :radiusInMeters
+                )
         """
     )
     fun findClosestRouteByCategories(userPoint: UserCoordinateDto, radiusInMeters: Long, categories: List<String>): List<Route>
