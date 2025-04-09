@@ -98,21 +98,24 @@ interface RouteRepository : CrudRepository<Route, UUID> {
     )
     fun findClosestRoute(userPoint: UserCoordinateDto, radiusInMeters: Long): List<Route>
 
-
-    //todo: исправить поиск по категориям, так как сейчас он *****
     @Query(
         """
             select *
             from route
-            join route_category on route.id = route_category.route_id
-            join route_coordinate on route.id = route_coordinate.route_id
-            where route_category.category_name in (:categories)
-            and route_coordinate.order_number = 1
+                join route_coordinate on route.id = route_coordinate.route_id
+            where route_coordinate.order_number = 1
             and ST_DWithin(
                     ST_SetSRID(ST_MakePoint(:#{#userPoint.longitude}, :#{#userPoint.latitude}), 4326)::geography,
                     route_coordinate.point::geography,
                     :radiusInMeters
                 )
+            and route.id in (
+                select route_id
+                from route_category
+                where category_name in (:categories)
+                group by route_id
+                having count(distinct category_name) = :#{#categories.size()}
+            )
         """
     )
     fun findClosestRouteByCategories(userPoint: UserCoordinateDto, radiusInMeters: Long, categories: List<String>): List<Route>
