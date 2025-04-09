@@ -47,8 +47,12 @@ class RouteController(
         routeService.getRoutePage(routeId, userId)
 
     @GetMapping(GET_ROUTE_BY_SEARCH_VALUE_URL)
-    fun getRouteByName(@RequestParam searchValue: String, @RequestParam latitude: Double, @RequestParam longitude: Double): List<RouteCartDto> =
-        routeService.getRouteBySearchValue(searchValue, UserCoordinateDto(latitude, longitude))
+    fun getRouteByName(
+        @RequestParam searchValue: String,
+        @RequestParam latitude: Double, @RequestParam longitude: Double,
+        @RequestParam(required = false) radius: Long?
+    ): List<RouteCartDto> =
+        routeService.getRouteBySearchValue(searchValue, UserCoordinateDto(latitude, longitude), radius ?: radiusInMeters)
 
     @GetMapping(GET_ROUTES_URL)
     fun getRoutes(

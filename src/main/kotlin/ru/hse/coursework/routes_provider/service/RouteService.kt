@@ -125,8 +125,8 @@ class RouteService(
     }
 
     @Transactional
-    fun getRouteBySearchValue(searchValue: String, userPoint: UserCoordinateDto): List<RouteCartDto> {
-        return routeRepository.findAllByName("%$searchValue%").map { route ->
+    fun getRouteBySearchValue(searchValue: String, userPoint: UserCoordinateDto, radiusInMeters: Long): List<RouteCartDto> {
+        return routeRepository.findAllClosestByName(userPoint, radiusInMeters, "%$searchValue%").map { route ->
             routeToRouteCartDtoConverter.convert(
                 route,
                 routeCategoryRepository.findByRouteId(route.id!!),
