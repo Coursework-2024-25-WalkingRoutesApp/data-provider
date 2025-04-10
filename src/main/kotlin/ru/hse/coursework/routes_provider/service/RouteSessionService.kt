@@ -66,7 +66,7 @@ class RouteSessionService(
 
                 userCheckpointRepository.deleteById(routeSessionDto.id!!)
                 routeSessionDto.userCheckpoint.forEach { checkpoint ->
-                    userCheckpointRepository.save(
+                    userCheckpointRepository.addUserCheckpoint(
                         userCheckpointDtoToUserCheckpointConverter.convert(
                             checkpoint,
                             routeSessionDto.id!!

@@ -34,4 +34,8 @@ class UserController(
     @PutMapping(UPDATE_USERNAME_URL)
     fun updateUsername(@RequestParam newUsername: String, @RequestParam userId: UUID): ResponseEntity<String> =
         userService.updateUsername(userId, newUsername)
+
+    @GetMapping(GET_USER_BY_EMAIL_URL)
+    fun getUserByEmail(@RequestParam email: String): UserSecurityDto? =
+                userService.getUserByEmail(email)
 }

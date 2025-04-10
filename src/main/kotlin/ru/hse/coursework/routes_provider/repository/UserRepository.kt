@@ -12,7 +12,7 @@ interface UserRepository : CrudRepository<User, UUID> {
     @Query(
         """
             select * 
-            from "user" 
+            from  public."user" 
             where id = :id
         """
     )
