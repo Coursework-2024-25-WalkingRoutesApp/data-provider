@@ -11,11 +11,9 @@ import ru.hse.coursework.routes_provider.dto.converter.UserToUserDtoConverter
 import ru.hse.coursework.routes_provider.dto.converter.UserToUserSecurityDtoConverter
 import ru.hse.coursework.routes_provider.model.User
 import ru.hse.coursework.routes_provider.repository.UserRepository
-import java.util.UUID
-import kotlin.io.encoding.ExperimentalEncodingApi
+import java.util.*
 
 @Service
-@ExperimentalEncodingApi
 class UserService(
     private val userRepository: UserRepository,
     private val userToUserDtoConverter: UserToUserDtoConverter,
@@ -27,7 +25,7 @@ class UserService(
         return try {
             if (userRepository.existsByEmail(email)) {
                 logger.error("User with email $email already exists")
-                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Пользователь с таким email уже существует")
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Пользователь с таким email уже существует")
             }
 
             userRepository.save(
@@ -48,10 +46,13 @@ class UserService(
 
     fun login(email: String, password: String): UserSecurityDto? {
         return userRepository.findUserByEmail(email)?.let { user ->
-
+            if (user.password != password) {
+                logger.error("Invalid password for user with email $email")
+                return null
+            }
             userToUserSecurityDtoConverter.convert(user)
         } ?: run {
-            logger.error("User with email $email not found")
+            logger.error("User with email $email does not exist")
             null
         }
     }
@@ -80,6 +81,16 @@ class UserService(
         } catch (e: Exception) {
             logger.error("Error while updating username", e)
             ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ошибка при обновлении имени пользователя")
+        }
+    }
+
+    @Transactional
+    fun getUserByEmail(email: String): UserSecurityDto? {
+        return userRepository.findUserByEmail(email)?.let { user ->
+            userToUserSecurityDtoConverter.convert(user)
+        } ?: run {
+            logger.error("User with email $email not found")
+            null
         }
     }
 

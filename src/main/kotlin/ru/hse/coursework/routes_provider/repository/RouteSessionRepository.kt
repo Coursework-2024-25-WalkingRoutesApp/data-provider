@@ -44,12 +44,12 @@ interface RouteSessionRepository : CrudRepository<RouteSession, UUID> {
     @Query(
         """
             update route_session
-            set is_finished = :routeSession.isFinished,
-                started_at = :routeSession.startedAt,
-                ended_at = :routeSession.endedAt
-            where id = :routeSession.id
-            and user_id = :routeSession.userId
-            and route_id = :routeSession.routeId
+            set is_finished = :#{#routeSession.isFinished},
+                started_at = :#{#routeSession.startedAt},
+                ended_at = :#{#routeSession.endedAt}
+            where id = :#{#routeSession.id}
+            and user_id = :#{#routeSession.userId}
+            and route_id = :#{#routeSession.routeId}
         """
     )
     fun updateRouteSessionData(routeSession: RouteSession): Int

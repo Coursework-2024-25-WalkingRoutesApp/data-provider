@@ -21,8 +21,8 @@ data class User(
     @Column(PASSWORD_COLUMN_NAME)
     val password: String,
 
-    @Column(ROLE_COLUMN_NAME)
-    val role: AuthorityType? = AuthorityType.DEFAULT,
+    @Column(ROLES_COLUMN_NAME)
+    val roles: List<AuthorityType>? = listOf(AuthorityType.DEFAULT),
 
     @Column(PHOTO_URL_COLUMN_NAME)
     val photoUrl: String? = null
@@ -40,7 +40,7 @@ data class User(
         const val USER_NAME_COLUMN_NAME = "user_name"
         const val EMAIL_COLUMN_NAME = "email"
         const val PASSWORD_COLUMN_NAME = "password"
-        const val ROLE_COLUMN_NAME = "role"
+        const val ROLES_COLUMN_NAME = "roles"
         const val PHOTO_URL_COLUMN_NAME = "photo_url"
     }
 }
