@@ -76,7 +76,7 @@ class UserService(
             ResponseEntity.status(HttpStatus.OK).body("Имя пользователя обновлено")
         } catch (e: Exception) {
             logger.error("Error while updating username", e)
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ошибка при обновлении имени пользователя")
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ошибка при обновлении имени пользователя")
         }
     }
 

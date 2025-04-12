@@ -1,5 +1,6 @@
 package ru.hse.coursework.routes_provider.service
 
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -31,6 +32,7 @@ class RouteSessionService(
 
     @Transactional
     fun getUserFinishedRoutes(userId: UUID, userPoint: UserCoordinateDto): List<RouteCartDto> {
+        logger.info("Getting finished routes for user $userId")
         return routeSessionRepository.findFinishedRoutesByUserId(userId).map { finished ->
             routeToRouteCartDtoConverter.convert(
                 routeRepository.findRouteById(finished.routeId),
@@ -38,11 +40,14 @@ class RouteSessionService(
                 routeCoordinateRepository.findStartPointByRouteId(finished.routeId),
                 userCoordinateDtoToPointConverter.convert(userPoint)
             )
+        }.also {
+            logger.info("Found ${it.size} finished routes for user $userId")
         }
     }
 
     @Transactional
     fun getUserUnfinishedRoutes(userId: UUID, userPoint: UserCoordinateDto): List<RouteCartDto> {
+        logger.info("Getting unfinished routes for user $userId")
         return routeSessionRepository.findUnfinishedRoutesByUserId(userId).map { unfinished ->
             routeToRouteCartDtoConverter.convert(
                 routeRepository.findRouteById(unfinished.routeId),
@@ -50,11 +55,14 @@ class RouteSessionService(
                 routeCoordinateRepository.findStartPointByRouteId(unfinished.routeId),
                 userCoordinateDtoToPointConverter.convert(userPoint)
             )
+        }.also {
+            logger.info("Found ${it.size} unfinished routes for user $userId")
         }
     }
 
     @Transactional
     fun createOrUpdateSession(routeSessionDto: RouteSessionDto, userId: UUID): ResponseEntity<String> {
+        logger.info("Creating/updating session for user $userId")
         return try {
             if (routeSessionDto.id?.let { routeSessionRepository.existByIdAndUserId(it, userId) } == true) {
                 routeSessionRepository.updateRouteSessionData(
@@ -74,6 +82,7 @@ class RouteSessionService(
                     )
                 }
 
+                logger.info("Session ${routeSessionDto.id} updated successfully")
                 ResponseEntity.status(HttpStatus.OK).body("Данные о сессии обновлены")
             } else {
                 val newRouteSession =
@@ -90,24 +99,34 @@ class RouteSessionService(
                     )
                 }
 
+                logger.info("New session created successfully with id ${newRouteSession.id}")
                 ResponseEntity.status(HttpStatus.CREATED).body("Сессия создана")
             }
         } catch (e: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ошибка при создании сессии")
+            logger.error("Error creating/updating session: ${e.message}")
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ошибка при создании сессии")
         }
     }
 
     @Transactional
     fun getSession(userId: UUID, routeId: UUID): ResponseEntity<RouteSessionDto>? {
+        logger.info("Getting session for user $userId and route $routeId")
         return routeSessionRepository.findByUserIdAndRouteId(userId, routeId)?.let { session ->
             ResponseEntity.status(HttpStatus.OK).body(
                 routeSessionToRouteSessionDtoConverter.convert(
                     session,
                     userCheckpointRepository.findByUserIdAndSessionId(session.id!!)
                 )
-            )
+            ).also {
+                logger.info("Successfully returned session data")
+            }
         } ?: run {
+            logger.info("No session found for user $userId and route $routeId")
             ResponseEntity.status(HttpStatus.NOT_FOUND).body(null)
         }
+    }
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(RouteSessionService::class.java)
     }
 }

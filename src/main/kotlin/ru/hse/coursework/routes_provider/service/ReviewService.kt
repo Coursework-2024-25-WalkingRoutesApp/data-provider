@@ -1,5 +1,6 @@
 package ru.hse.coursework.routes_provider.service
 
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -22,7 +23,9 @@ class ReviewService(
 
     @Transactional
     fun getRouteReviews(routeId: UUID, userId: UUID): ReviewDto {
+        logger.info("Getting reviews for route $routeId by user $userId")
         val reviews = reviewRepository.findAllByRouteId(routeId)
+
         val userList = reviews.mapNotNull { userRepository.findUserById(it.userId) }
 
         return reviewToReviewDtoConverter.convert(
@@ -30,6 +33,8 @@ class ReviewService(
             userList,
         ).apply {
             curUserId = userId
+        }.also {
+            logger.info("Successfully compiled reviews DTO for route $routeId")
         }
     }
 
@@ -41,11 +46,20 @@ class ReviewService(
         reviewText: String,
         createdAt: LocalDateTime
     ): ResponseEntity<String> {
+        logger.info("Adding review by user $userId for route $routeId")
         return try {
-            reviewRepository.saveReview(reviewValuesToReviewConverter.convert(userId, routeId, mark, reviewText, createdAt))
+            reviewRepository.saveReview(reviewValuesToReviewConverter.convert(
+                userId, routeId, mark, reviewText, createdAt
+            ))
+            logger.info("Review successfully added by user $userId for route $routeId")
             ResponseEntity.status(HttpStatus.CREATED).body("Отзыв добавлен")
         } catch (e: Exception) {
-            ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Ошибка при добавлении отзыва")
+            logger.error("Failed to add review by user $userId for route $routeId: ${e.message}")
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ошибка при добавлении отзыва")
         }
+    }
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(ReviewService::class.java)
     }
 }
