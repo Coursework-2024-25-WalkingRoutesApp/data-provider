@@ -1,5 +1,6 @@
 package ru.hse.coursework.routes_provider.service
 
+import org.slf4j.LoggerFactory
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
@@ -26,9 +27,11 @@ class FavoriteRoutesService(
 
     @Transactional
     fun getUserFavouriteRoutes(userId: UUID, userPoint: UserCoordinateDto): List<RouteCartDto> {
+        logger.info("Getting favorite routes for user $userId")
         return favoriteRepository.findFavoritesByUserId(userId)
             .takeIf { it.isNotEmpty() }
             ?.let { favorites ->
+                logger.info("Found ${favorites.size} favorite routes for user $userId")
                 favorites.map { favourite ->
                     routeToRouteCartDtoConverter.convert(
                         routeRepository.findRouteById(favourite.routeId),
@@ -37,26 +40,38 @@ class FavoriteRoutesService(
                         userCoordinateDtoToPointConverter.convert(userPoint)
                     )
                 }
-            } ?: emptyList()
+            } ?: emptyList<RouteCartDto>().also {
+                logger.info("No favorite routes found for user $userId")
+            }
     }
 
     @Transactional
     fun addFavourite(userId: UUID, routeId: UUID): ResponseEntity<String> {
+        logger.info("Adding favorite route $routeId for user $userId")
         return try {
             favoriteRepository.saveFavoriteRoute(userId, routeId)
+            logger.info("Successfully added favorite route $routeId for user $userId")
             ResponseEntity.status(HttpStatus.CREATED).body("Маршрут добавлен в избранное")
         } catch (e: Exception) {
-            ResponseEntity.badRequest().body("Ошибка добавления маршрута в избранное")
+            logger.error("Failed to add favorite route $routeId for user $userId: ${e.message}")
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ошибка добавления маршрута в избранное")
         }
     }
 
     @Transactional
     fun deleteFavourite(userId: UUID, routeId: UUID): ResponseEntity<String> {
+        logger.info("Deleting favorite route $routeId for user $userId")
         return try {
             favoriteRepository.deleteByUserIdAndRouteId(userId, routeId)
+            logger.info("Successfully deleted favorite route $routeId for user $userId")
             ResponseEntity.ok("Маршрут удален из избранного")
         } catch (e: Exception) {
-            ResponseEntity.badRequest().body("Ошибка удаления маршрута из избранного")
+            logger.error("Failed to delete favorite route $routeId for user $userId: ${e.message}")
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ошибка удаления маршрута из избранного")
         }
+    }
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(FavoriteRoutesService::class.java)
     }
 }
