@@ -15,18 +15,18 @@ class RouteSessionController(
 ) {
 
     @GetMapping(GET_FINISHED_URL)
-    fun getFinished(@RequestParam userId: UUID, @RequestParam latitude: Double, @RequestParam longitude: Double): List<RouteCartDto> =
+    fun getFinished(@RequestHeader(USER_ID_HEADER) userId: UUID, @RequestParam latitude: Double, @RequestParam longitude: Double): List<RouteCartDto> =
         routeSessionService.getUserFinishedRoutes(userId, UserCoordinateDto(latitude, longitude))
 
     @GetMapping(GET_UNFINISHED_URL)
-    fun getUnfinished(@RequestParam userId: UUID, @RequestParam latitude: Double, @RequestParam longitude: Double): List<RouteCartDto> =
+    fun getUnfinished(@RequestHeader(USER_ID_HEADER) userId: UUID, @RequestParam latitude: Double, @RequestParam longitude: Double): List<RouteCartDto> =
         routeSessionService.getUserUnfinishedRoutes(userId, UserCoordinateDto(latitude, longitude))
 
     @PostMapping(ADD_SESSION_URL)
-    fun addSession(@RequestBody routeSessionDto: RouteSessionDto, @RequestParam userId: UUID): ResponseEntity<String> =
+    fun addSession(@RequestHeader(USER_ID_HEADER) userId: UUID, @RequestBody routeSessionDto: RouteSessionDto): ResponseEntity<String> =
         routeSessionService.createOrUpdateSession(routeSessionDto, userId)
 
     @GetMapping(GET_SESSION_URL)
-    fun getSession(@RequestParam userId: UUID, @RequestParam routeId: UUID): ResponseEntity<RouteSessionDto>? =
+    fun getSession(@RequestHeader(USER_ID_HEADER) userId: UUID, @RequestParam routeId: UUID): ResponseEntity<RouteSessionDto>? =
         routeSessionService.getSession(userId, routeId)
 }

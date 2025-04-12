@@ -46,10 +46,6 @@ class UserService(
 
     fun login(email: String, password: String): UserSecurityDto? {
         return userRepository.findUserByEmail(email)?.let { user ->
-            if (user.password != password) {
-                logger.error("Invalid password for user with email $email")
-                return null
-            }
             userToUserSecurityDtoConverter.convert(user)
         } ?: run {
             logger.error("User with email $email does not exist")

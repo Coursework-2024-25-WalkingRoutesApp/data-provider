@@ -13,15 +13,15 @@ class FavoriteRoutesController(
     private val favoriteRoutesService: FavoriteRoutesService
 ) {
     @GetMapping(GET_FAVOURITES_URL)
-    fun getFavourites(@RequestParam userId: UUID, @RequestParam latitude: Double, @RequestParam longitude: Double): List<RouteCartDto> =
+    fun getFavourites(@RequestHeader(USER_ID_HEADER) userId: UUID, @RequestParam latitude: Double, @RequestParam longitude: Double): List<RouteCartDto> =
         favoriteRoutesService.getUserFavouriteRoutes(userId, UserCoordinateDto(latitude, longitude))
 
 
     @PostMapping(ADD_FAVOURITE_URL)
-    fun addFavourite(@RequestParam userId: UUID, @RequestParam routeId: UUID): ResponseEntity<String> =
+    fun addFavourite(@RequestHeader(USER_ID_HEADER) userId: UUID, @RequestParam routeId: UUID): ResponseEntity<String> =
         favoriteRoutesService.addFavourite(userId, routeId)
 
     @DeleteMapping(DELETE_FAVOURITE_URL)
-    fun deleteFavourite(@RequestParam userId: UUID, @RequestParam routeId: UUID): ResponseEntity<String> =
+    fun deleteFavourite(@RequestHeader(USER_ID_HEADER) userId: UUID, @RequestParam routeId: UUID): ResponseEntity<String> =
         favoriteRoutesService.deleteFavourite(userId, routeId)
 }
