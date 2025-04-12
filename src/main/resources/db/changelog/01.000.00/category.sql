@@ -4,4 +4,10 @@ create table category
 (
     category_name varchar primary key
 );
+
+insert into category (category_name) values
+('Природный'),
+('Культурно-исторический'),
+('Кафе по пути'),
+('У метро');
 -- rollback drop table category;
