@@ -35,7 +35,6 @@ class RouteService(
     fun createOrUpdateRoute(routeDto: RouteDto, userId: UUID): ResponseEntity<String> {
         return try {
             if (routeDto.id?.let { routeRepository.existByIdAndUserId(it, userId) } == true) {
-                //todo: проверить корректность апдейтов
                 routeRepository.updateRouteData(routeDtoToRouteConverter.convert(routeDto).apply {
                     this.userId = userId
                 })

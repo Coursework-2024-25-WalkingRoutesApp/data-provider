@@ -1,11 +1,7 @@
 package ru.hse.coursework.routes_provider.controller
 
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import ru.hse.coursework.routes_provider.dto.ReviewDto
 import ru.hse.coursework.routes_provider.service.ReviewService
 import java.time.LocalDateTime
@@ -18,12 +14,12 @@ class ReviewController(
 ) {
 
     @GetMapping(GET_REVIEWS_URL)
-    fun getReviews(@RequestParam routeId: UUID, @RequestParam userId: UUID): ReviewDto =
+    fun getReviews(@RequestHeader(USER_ID_HEADER) userId: UUID, @RequestParam routeId: UUID): ReviewDto =
         reviewService.getRouteReviews(routeId, userId)
 
     @PostMapping(ADD_REVIEW_URL)
     fun addReview(
-        @RequestParam userId: UUID,
+        @RequestHeader(USER_ID_HEADER) userId: UUID,
         @RequestParam routeId: UUID,
         @RequestParam mark: Int,
         @RequestParam reviewText: String,
