@@ -32,4 +32,30 @@ interface ReviewRepository : CrudRepository<Review, UUID> {
         """
     )
     fun saveReview(review: Review): Int
+
+    @Query(
+        """
+            select exists(
+                select 1 
+                from review 
+                where user_id = :userId 
+                    and route_id = :routeId
+            )
+        """
+    )
+    fun existsByUserIdAndRouteId(userId: UUID, routeId: UUID): Boolean
+
+    @Modifying
+    @Query(
+        """
+            update review
+            set 
+                mark = :#{#review.mark},
+                review_text = :#{#review.reviewText},
+                created_at = :#{#review.createdAt}
+            where user_id = :#{#review.userId} 
+            and route_id = :#{#review.routeId}
+        """
+    )
+    fun updateReview(review: Review): Int
 }

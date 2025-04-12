@@ -48,11 +48,24 @@ class ReviewService(
     ): ResponseEntity<String> {
         logger.info("Adding review by user $userId for route $routeId")
         return try {
-            reviewRepository.saveReview(reviewValuesToReviewConverter.convert(
-                userId, routeId, mark, reviewText, createdAt
-            ))
-            logger.info("Review successfully added by user $userId for route $routeId")
-            ResponseEntity.status(HttpStatus.CREATED).body("Отзыв добавлен")
+            if(reviewRepository.existsByUserIdAndRouteId(userId, routeId)) {
+                reviewRepository.updateReview(
+                    reviewValuesToReviewConverter.convert(
+                        userId, routeId, mark, reviewText, createdAt
+                    )
+                )
+
+                logger.info("Review successfully updated by user $userId for route $routeId")
+                ResponseEntity.status(HttpStatus.OK).body("Отзыв обновлен")
+            } else {
+                reviewRepository.saveReview(
+                    reviewValuesToReviewConverter.convert(
+                        userId, routeId, mark, reviewText, createdAt
+                    )
+                )
+                logger.info("Review successfully added by user $userId for route $routeId")
+                ResponseEntity.status(HttpStatus.CREATED).body("Отзыв добавлен")
+            }
         } catch (e: Exception) {
             logger.error("Failed to add review by user $userId for route $routeId: ${e.message}")
             ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ошибка при добавлении отзыва")
