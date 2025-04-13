@@ -94,6 +94,7 @@ interface RouteRepository : CrudRepository<Route, UUID> {
                     route_coordinate.point::geography,
                     :radiusInMeters
                 )
+            and is_draft = false
         """
     )
     fun findClosestRoute(userPoint: UserCoordinateDto, radiusInMeters: Long): List<Route>
@@ -109,6 +110,7 @@ interface RouteRepository : CrudRepository<Route, UUID> {
                     route_coordinate.point::geography,
                     :radiusInMeters
                 )
+            and is_draft = false
             and route.id in (
                 select route_id
                 from route_category
@@ -133,6 +135,7 @@ interface RouteRepository : CrudRepository<Route, UUID> {
                     route_coordinate.point::geography,
                     :radiusInMeters
                 )
+            and is_draft = false
         """
     )
     fun findAllClosestByName(userPoint: UserCoordinateDto, radiusInMeters: Long, routeName: String): List<Route>
