@@ -1,1 +1,1 @@
-rootProject.name = "routes-provider"
+rootProject.name = "data-provider"
