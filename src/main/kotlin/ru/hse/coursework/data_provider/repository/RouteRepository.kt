@@ -139,4 +139,23 @@ interface RouteRepository : CrudRepository<Route, UUID> {
         """
     )
     fun findAllClosestByName(userPoint: UserCoordinateDto, radiusInMeters: Long, routeName: String): List<Route>
+
+    @Query(
+        """
+            select *
+            from route
+            where is_draft = false
+        """
+    )
+    fun findAllPublishedRoutes(): List<Route>
+
+    @Query(
+        """
+            select count(*)
+            from route
+            where user_id = :userId
+            and is_draft = false
+        """
+    )
+    fun findPublishedRoutesCountByUserId(userId: UUID): Long
 }

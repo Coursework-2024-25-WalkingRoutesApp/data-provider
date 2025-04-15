@@ -58,4 +58,13 @@ interface ReviewRepository : CrudRepository<Review, UUID> {
         """
     )
     fun updateReview(review: Review): Int
+
+    @Query(
+        """
+            select count(*)
+            from review
+            where route_id = :routeId
+        """
+    )
+    fun findReviewsCountByRouteId(routeId: UUID): Long
 }
