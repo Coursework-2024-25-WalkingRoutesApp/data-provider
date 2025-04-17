@@ -51,4 +51,13 @@ interface FavoriteRepository : CrudRepository<Favorite, UUID> {
         """
     )
     fun existsByRouteIdAndUserId(routeId: UUID, userId: UUID): Boolean
+
+    @Query(
+        """
+            select count(*)
+            from favorite
+            where route_id = :routeId
+        """
+    )
+    fun findLikesCountByRouteId(routeId: UUID): Long
 }

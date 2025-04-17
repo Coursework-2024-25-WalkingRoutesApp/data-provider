@@ -63,4 +63,23 @@ interface RouteSessionRepository : CrudRepository<RouteSession, UUID> {
         """
     )
     fun findByUserIdAndRouteId(userId: UUID, routeId: UUID): RouteSession?
+
+    @Query(
+        """
+            select count(*)
+            from route_session
+            where is_finished = true
+        """
+    )
+    fun findFinishedRoutesCount(): Long
+
+    @Query(
+        """
+            select count(*)
+            from route_session
+            where user_id = :userId
+            and is_finished = true
+        """
+    )
+    fun findFinishedRoutesCountByUserId(userId: UUID): Long
 }
