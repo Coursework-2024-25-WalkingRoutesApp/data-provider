@@ -3,8 +3,8 @@ spring:
     name: routes-provider
   datasource:
     url: jdbc:postgresql://${DEV_ENV_HOST}:5432/walking_routes_app_db
-    username: admin
-    password: admin
+    username: ${DEV_ENV_DB_USER}
+    password: ${DEV_ENV_DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
 server:
