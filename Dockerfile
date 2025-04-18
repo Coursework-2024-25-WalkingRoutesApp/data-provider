@@ -1,6 +1,6 @@
 FROM amazoncorretto:23-alpine-jdk
 
-WORKDIR /routes-provider
-ADD build/libs/routes-provider-0.0.1-SNAPSHOT.jar app.jar
+WORKDIR /data-provider
+ADD build/libs/data-provider-0.0.1-SNAPSHOT.jar data-provider.jar
 
-CMD ["java", "-jar", "app.jar"]
+CMD ["java", "-jar", "data-provider.jar"]
