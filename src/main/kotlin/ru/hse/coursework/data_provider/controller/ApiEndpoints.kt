@@ -32,6 +32,7 @@ const val LOGIN_URL = "/login"
 const val GET_USER_INFO_URL = "/info"
 const val UPDATE_USERNAME_URL = "/update-username"
 const val GET_USER_BY_EMAIL_URL = "/by-email"
+const val UPDATE_USER_PHOTO_URL = "/update-user-photo"
 
 const val METRICS_BASE_PATH_URL = "/api/data-provider/metrics/admin"
 const val GET_REGISTERED_USERS_COUNT_URL = "/registered/count"

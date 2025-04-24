@@ -38,4 +38,11 @@ class UserController(
     @GetMapping(GET_USER_BY_EMAIL_URL)
     fun getUserByEmail(@RequestParam email: String): UserSecurityDto? =
                 userService.getUserByEmail(email)
+
+    @PutMapping(UPDATE_USER_PHOTO_URL)
+    fun updateUserPhoto(
+        @RequestParam userId: UUID,
+        @RequestParam photoUrl: String
+    ): ResponseEntity<String> =
+        userService.updateUserPhoto(userId, photoUrl)
 }

@@ -10,6 +10,7 @@ import ru.hse.coursework.data_provider.dto.UserSecurityDto
 import ru.hse.coursework.data_provider.dto.converter.UserToUserDtoConverter
 import ru.hse.coursework.data_provider.dto.converter.UserToUserSecurityDtoConverter
 import ru.hse.coursework.data_provider.model.User
+
 import ru.hse.coursework.data_provider.repository.UserRepository
 import java.util.*
 
@@ -87,6 +88,23 @@ class UserService(
         } ?: run {
             logger.error("User with email $email not found")
             null
+        }
+    }
+
+    @Transactional
+    fun updateUserPhoto(userId: UUID, newPhotoUrl: String): ResponseEntity<String> {
+        return try {
+            val user = userRepository.findUserById(userId) ?: return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Пользователь с таким userId не найден")
+
+            userRepository.save(user.apply {
+                photoUrl = newPhotoUrl
+            })
+
+            logger.info("Photo for user with id $userId successfully updated")
+            ResponseEntity.status(HttpStatus.OK).body("Фото пользователя обновлено")
+        } catch (e: Exception) {
+            logger.error("Error while updating user photo", e)
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ошибка при обновлении фото пользователя")
         }
     }
 
