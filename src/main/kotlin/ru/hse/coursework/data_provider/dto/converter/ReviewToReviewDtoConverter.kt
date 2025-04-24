@@ -14,7 +14,7 @@ class ReviewToReviewDtoConverter {
                 ReviewDto.ReviewInfoDto(
                     userId = reviewInfo.userId,
                     userName = users.find { it.id == reviewInfo.userId }!!.userName,
-                    userPhotoUrl = users.find { it.id == reviewInfo.userId }!!.photoUrl,
+                    photoUrl = users.find { it.id == reviewInfo.userId }!!.photoUrl,
                     reviewText = reviewInfo.reviewText,
                     rating = reviewInfo.mark!!,
                     createdAt = reviewInfo.createdAt!!

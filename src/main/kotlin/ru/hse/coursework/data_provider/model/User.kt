@@ -25,7 +25,7 @@ data class User(
     val roles: List<AuthorityType>? = listOf(AuthorityType.DEFAULT),
 
     @Column(PHOTO_URL_COLUMN_NAME)
-    val photoUrl: String? = null
+    var photoUrl: String? = null
 ) {
 
     enum class AuthorityType {

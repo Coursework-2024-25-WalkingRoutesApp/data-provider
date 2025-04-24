@@ -11,7 +11,7 @@ data class ReviewDto(
     data class ReviewInfoDto(
         var userId: UUID,
         var userName: String,
-        var userPhotoUrl: String?,
+        var photoUrl: String?,
         var reviewText: String?,
         var rating: Int,
         val createdAt: LocalDateTime
