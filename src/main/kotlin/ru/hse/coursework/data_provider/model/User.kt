@@ -25,7 +25,10 @@ data class User(
     val roles: List<AuthorityType>? = listOf(AuthorityType.DEFAULT),
 
     @Column(PHOTO_URL_COLUMN_NAME)
-    var photoUrl: String? = null
+    var photoUrl: String? = null,
+
+    @Column(IS_VERIFIED_COLUMN_NAME)
+    var isVerified: Boolean? = false,
 ) {
 
     enum class AuthorityType {
@@ -42,5 +45,6 @@ data class User(
         const val PASSWORD_COLUMN_NAME = "password"
         const val ROLES_COLUMN_NAME = "roles"
         const val PHOTO_URL_COLUMN_NAME = "photo_url"
+        const val IS_VERIFIED_COLUMN_NAME = "is_verified"
     }
 }
