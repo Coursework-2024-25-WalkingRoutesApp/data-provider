@@ -36,6 +36,23 @@ jobs:
             DEV_ENV_DB_USER=${{ secrets.DEV_ENV_DB_USER }}
             DEV_ENV_DB_PASSWORD=${{ secrets.DEV_ENV_DB_PASSWORD }}
             SERVER_PORT=${{ secrets.SERVER_PORT }}
+            DEV_ENV_S3_BUCKET=${{ secrets.DEV_ENV_S3_BUCKET }}
+            DEV_ENV_S3_ENDPOINT=${{ secrets.DEV_ENV_S3_ENDPOINT }}
+            DEV_ENV_S3_REGION=${{ secrets.DEV_ENV_S3_REGION }}
+            DEV_ENV_S3_ACCESS_KEY=${{ secrets.DEV_ENV_S3_ACCESS_KEY }}
+            DEV_ENV_S3_SECRET_KEY=${{ secrets.DEV_ENV_S3_SECRET_KEY }}
 
       - name: Deploy Docker container
-        run: docker run -d --network walking_routes_network --name data-provider -e DEV_ENV_HOST=${{ secrets.DEV_ENV_HOST }} -e SERVER_PORT=${{ secrets.SERVER_PORT }} -e DEV_ENV_DB_USER=${{ secrets.DEV_ENV_DB_USER }} -e DEV_ENV_DB_PASSWORD=${{ secrets.DEV_ENV_DB_PASSWORD }} -p 28081:8081 user/data-provider:latest
+        run: |
+          docker run -d --network walking_routes_network --name data-provider \
+            -e DEV_ENV_HOST=${{ secrets.DEV_ENV_HOST }} \
+            -e SERVER_PORT=${{ secrets.SERVER_PORT }} \
+            -e DEV_ENV_DB_USER=${{ secrets.DEV_ENV_DB_USER }} \
+            -e DEV_ENV_DB_PASSWORD=${{ secrets.DEV_ENV_DB_PASSWORD }} \
+            -e DEV_ENV_S3_BUCKET=${{ secrets.DEV_ENV_S3_BUCKET }} \
+            -e DEV_ENV_S3_ENDPOINT=${{ secrets.DEV_ENV_S3_ENDPOINT }} \
+            -e DEV_ENV_S3_REGION=${{ secrets.DEV_ENV_S3_REGION }} \
+            -e DEV_ENV_S3_ACCESS_KEY=${{ secrets.DEV_ENV_S3_ACCESS_KEY }} \
+            -e DEV_ENV_S3_SECRET_KEY=${{ secrets.DEV_ENV_S3_SECRET_KEY }} \
+            -p ${{ secrets.SERVER_PORT_PUBLIC }}:${{ secrets.SERVER_PORT }} \
+            user/data-provider:latest
