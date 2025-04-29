@@ -1,9 +1,6 @@
 name: Deploy
 
 on:
-  push:
-    branches:
-      - release
   workflow_dispatch:
 
 jobs:
@@ -11,8 +8,17 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Read version from build.gradle.kts
+        run: echo "VERSION=$(./gradlew -q properties | grep '^version:' | awk '{print $2}')" >> $GITHUB_ENV
+
       - name: Build JAR
-        run: ./gradlew clean bootJar -x test
+        run: ./gradlew clean bootJar -x test -P version=${{ env.VERSION }}
 
       - name: Verify JAR exists
         run: ls -la build/libs/
@@ -32,6 +38,7 @@ jobs:
           load: true
           tags: user/data-provider:latest
           build-args: |
+            VERSION=${{ env.VERSION }}
             DEV_ENV_HOST=${{ secrets.DEV_ENV_HOST }}
             DEV_ENV_DB_USER=${{ secrets.DEV_ENV_DB_USER }}
             DEV_ENV_DB_PASSWORD=${{ secrets.DEV_ENV_DB_PASSWORD }}
@@ -41,6 +48,9 @@ jobs:
             DEV_ENV_S3_REGION=${{ secrets.DEV_ENV_S3_REGION }}
             DEV_ENV_S3_ACCESS_KEY=${{ secrets.DEV_ENV_S3_ACCESS_KEY }}
             DEV_ENV_S3_SECRET_KEY=${{ secrets.DEV_ENV_S3_SECRET_KEY }}
+
+      - name: Stop and remove existing container (if any)
+        run: docker rm -f data-provider || true
 
       - name: Deploy Docker container
         run: |
