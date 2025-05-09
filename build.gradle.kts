@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "ru.hse.coursework"
-version = "1.0.0"
+version = "1.0.1-SNAPSHOT"
 
 java {
 	toolchain {
