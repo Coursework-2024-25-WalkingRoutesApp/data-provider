@@ -29,6 +29,7 @@ val liquibaseVersion: String by project
 val postgisJdbcVersion: String by project
 val postgresqlVersion: String by project
 val junitPlatformLauncherVersion: String by project
+val micrometerJvmExtrasVersion: String by project
 
 dependencies {
 
@@ -46,10 +47,14 @@ dependencies {
 	implementation("org.liquibase:liquibase-core:$liquibaseVersion")
 
 	implementation("net.postgis:postgis-jdbc:$postgisJdbcVersion")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("io.micrometer:micrometer-core")
+	implementation("io.github.mweirauch:micrometer-jvm-extras:$micrometerJvmExtrasVersion")
 	runtimeOnly("org.postgresql:postgresql:$postgresqlVersion")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:$kotlinTestJunit5Version")
+	runtimeOnly("io.micrometer:micrometer-registry-prometheus")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher:$junitPlatformLauncherVersion")
 }
 

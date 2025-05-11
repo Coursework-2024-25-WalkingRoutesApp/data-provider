@@ -26,3 +26,16 @@ server:
           data: DEBUG
 
 radius-in-meters: 10000
+
+management:
+  endpoints.web.exposure.include: 'prometheus, health, info, metrics'
+  metrics:
+    enable:
+      all: true
+    distribution:
+      percentiles-histogram:
+        "[http.server.requests]": true
+  prometheus:
+    metrics:
+      export:
+        enabled: true
