@@ -30,11 +30,13 @@ val postgisJdbcVersion: String by project
 val postgresqlVersion: String by project
 val junitPlatformLauncherVersion: String by project
 val micrometerJvmExtrasVersion: String by project
+val springDocVersion: String by project
 
 dependencies {
 
 	implementation("org.springframework.boot:spring-boot-starter-data-jdbc")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springDocVersion")
 
 	implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
 
